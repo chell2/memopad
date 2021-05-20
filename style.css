@@ -1,0 +1,175 @@
+/** CSS **/
+
+/* 全体設定 */
+body{
+	font-family: Roboto, "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+	line-height: 1.5;
+	font-size: 16px;
+	width: 960px;
+	margin-left: 20px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 16px;
+  max-height: 200px;
+}
+
+input,textarea{
+    font-size:80%;
+}
+
+td{
+  margin: 2px;
+  padding-left: 20px;
+}
+
+h3{
+  color: #3f3f3f;
+  border-left: solid 8px orange;/*左側の線*/
+  background: whitesmoke;/*背景色*/
+  margin-bottom: 5px;/*下のバーとの余白*/
+  line-height: 1.5;
+  padding: 0.5em;
+  list-style-type: none!important;
+}
+
+img.kyto{
+	width: 50px;
+	height: 50px;
+}
+
+img.lett{
+	width: 60px;
+	height: 60px;
+}
+
+img.koku{
+	width: 70px;
+	height: 70px;
+}
+
+a:link, a:visited {
+  color: #5bbee5;
+}
+
+a:hover, a:active {
+  color: #5b94e5
+}
+/* --------------------------- */
+
+/* タブ設定 */
+ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+p{
+  margin: 0;
+}
+
+.wrap-tab{
+  overflow: hidden;
+}
+
+.list-tab{
+  display: flex;
+  margin: 0 -2px;
+  border-bottom: 3px solid #5bbee5;
+}
+
+.list-tab > li{
+  display: block;
+  padding: 0.5em 1em;
+  margin: 0 2px;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  background: #ccc;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.list-tab .active{
+  background: #5bbee5;
+}
+
+.tab-content{
+  display: none;
+  padding: 1em;
+  border-bottom: 1px solid #5bbee5;
+  border-left: 1px solid #5bbee5;
+  border-right: 1px solid #5bbee5;
+}
+
+.tab-content.active{
+  display: block;
+}
+
+li:hover{
+    background: #5b94e5;
+    color:#fff;
+}
+/* タブ設定ここまで-------------- */
+
+/* ふきだしの設定 */
+td.div {
+	position:relative;
+}
+
+.tooltip:before {
+	content: '';
+	position:absolute;
+	top:10px;
+	left:-20px;
+	border:12px solid transparent;
+	border-right:12px solid #808080;
+}
+
+.tooltip {
+	position:absolute;
+	background-color:#808080;
+	color:white;
+	font-size:0.8em;
+	border-radius:0.5em;
+	padding:10px;
+	margin:-0.8em 0.5em 0 1em;
+	display:none;
+}
+/* ふきだしここまで-------------- */
+
+/* Topへ戻るボタン */
+#page-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 14px;
+  line-height: 1;
+  z-index: 99;
+}
+
+#page-top a {
+  background: #5bbee5;
+  text-decoration: none;
+  color: #fff;
+  width: 40px;
+  padding: 28px 5px;
+  text-align: center;
+  display: block;
+  border-radius: 90px;
+  opacity: 0.9;
+  transition: all .3s ease;
+}
+
+#page-top a:hover {
+  text-decoration: none;
+  background: #5b94e5;
+}
+/* 戻るボタンここまで-------------- */
+
+/* aタグのリスト */
+#anchorBox{
+	padding-top: 10px;
+}
+
