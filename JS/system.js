@@ -139,8 +139,83 @@ for (let i = 0; i < elms.length; i++) {
 	};
 };
 
+// 事業費の初期値の自動計算 -----------------------------------------
+// 手入力した事業費から計算する。ぱっと表示したいのでfocusoutを使う。
+// 参考 https://qiita.com/suzy1031/items/c5a519635923f7400da1
+// 参考 https://qiita.com/8845musign/items/88a8c693c84ba63cea1d
+// 入力値の変数定義は外に出すと効かないみたい。
 
-// 面積の単位換算（a）--------------------------------------------
+// 事業費（税抜）を入力した場合
+$(document).ready(function () {
+	$("#zeinuki1").focusout(function () {
+		var inputNuki = $("#zeinuki1").val();
+		// console.log(inputNuki);
+		// 事業費（税込）の計算
+		var resultKomi = Math.floor(inputNuki * 1.1);
+		// console.log(resultKomi);
+		$("#zeikomi1").val(resultKomi);
+		// 事業費総額（＝税込額）の反映
+		$("#sougaku").val(resultKomi);
+		// 補助率の確認
+		var hojoritsu = $('[name="ritsu1"] option:selected').val();
+		// console.log(hojoritsu);
+		// 県費の計算（＝税込額*補助率）
+		var resultKen = Math.floor(inputNuki * hojoritsu / 1000) * 1000;
+		// console.log(resultKen);
+		$("#kenpi").val(resultKen);
+		// 市町村費の計算
+		var resultShi = Math.floor(inputNuki / 20 / 1000) * 1000;
+		// console.log(resultShi);
+		$("#shihi").val(resultShi);
+		// その他（自己負担）の計算
+		var inputYuushi = $("#yuushi").val();
+		var resultJikof = resultKomi - resultKen - resultShi - inputYuushi;
+		$("#jikof").val(resultJikof);
+	});
+});
+
+// 事業費（税込）を入力した場合
+$(document).ready(function () {
+	$("#zeikomi1").focusout(function () {
+		var inputKomi = $("#zeikomi1").val();
+		// console.log(inputKomi);
+		// 事業費（税抜）の計算
+		var resultNuki = Math.round(inputKomi / 1.1);
+		// console.log(resultNuki);
+		$("#zeinuki1").val(resultNuki);
+		// 事業費総額（＝税込額）の反映
+		$("#sougaku").val(inputKomi);
+		// 補助率の確認
+		var hojoritsu = $('[name="ritsu1"] option:selected').val();
+		// console.log(hojoritsu);
+		// 県費の計算（＝税込額*補助率）
+		var resultKen = Math.floor(resultNuki * hojoritsu / 1000) * 1000;
+		// console.log(resultKen);
+		$("#kenpi").val(resultKen);
+		// 市町村費の計算
+		var resultShi = Math.floor(resultNuki / 20 / 1000) * 1000;
+		// console.log(resultShi);
+		$("#shihi").val(resultShi);
+		// その他（自己負担）の計算
+		var inputYuushi = $("#yuushi").val();
+		var resultJikof = inputKomi - resultKen - resultShi - inputYuushi;
+		$("#jikof").val(resultJikof);
+	});
+});
+
+// 融資金を入力した場合
+// 反応なし。。再計算ボタンを作る必要あり。
+$(document).ready(function () {
+	// その他（自己負担）の再計算
+	var inputYuushi = $("#yuushi").val();
+	// console.log(inputYuushi);
+	var resultJikof = $("#sougaku").val(); - $("#kenpi").val(); - $("#shihi").val(); - inputYuushi;
+	// console.log(resultJikof);
+	$("#jikof").val(resultJikof);
+});
+
+
+// 面積の単位換算（a）-------------------------------------------
 function kansan() {
 	var area = document.getElementById("area1").value;
 	var unit = document.getElementById("unit1").value;
@@ -166,6 +241,7 @@ function kansan() {
 // 参考 たろう先生PDF
 // Qiita https://qiita.com/ichikawa_0829/items/85413fedc59822ccef75
 // 数値の取得 参考 https://itsakura.com/js-number
+// https://qiita.com/noqua/items/b81222c0352aecaf31ea
 
 // localStorageが使用出来るかチェック
 // if (!window.localStorage) {
@@ -204,7 +280,7 @@ $('#save').on('click', function () {
 			"unit1": $('#unit1').val(),
 			"kansan1": $('#kansan1').val(),
 			// 事業計画
-			"taisaku": $('#taisaku').val(),
+			"taisaku": $('[name="taisaku"]:checked').val(),
 			"kokko": $('[name="kokko"]:checked').val(),
 			"naiyou1": $('#naiyou1').val(),
 			"shisetsu1": $('#shisetsu1').val(),
@@ -212,7 +288,7 @@ $('#save').on('click', function () {
 			"ritsu1": $('#ritsu1').val(),
 			"zeikomi1": $('#zeikomi1').val(),
 			"zeinuki1": $('#zeinuki1').val(),
-			"sekou1": $('#sekou1').val(),
+			"sekou1": $('[name="sekou1"]:checked').val(),
 			// 負担内訳
 			"sougaku": $('#sougaku').val(),
 			"kenpi": $('#kenpi').val(),
@@ -334,7 +410,6 @@ function remove() {
 	};
 };
 
-
 //全データをクリアする
 function cle() {
 	var conf = confirm("全件データ削除しますか？");
@@ -347,17 +422,16 @@ function cle() {
 	};
 };
 
-
 //全キー名とデータを表示
 function allKey() {
 	var n, i, s, key;
 	n = localStorage.length;
-	s = "<table border='2' width='98%'><tr><th>&nbsp;</th><th>キー名</th><th>データ</th></tr>";
+	s = "<table border='1' id='allData'><tr><th id='noRetsu'>&nbsp;</th><th id='keyRetsu'>キー名</th><th id='dataRetsu'>データ</th></tr>";
 	for (i = 0; i < n; i++) {
 		key = localStorage.key(i);
 		s += "<tr>";
 		s += "<th>" + i + "</th>";
-		s += "<td>" + key + "</td>";
+		s += "<td class='keyRetsuD'>" + key + "</td>";
 		s += "<td>" + localStorage.getItem(key) + "</td>";
 		s += "</tr>";
 	}
@@ -408,3 +482,60 @@ $(function () {
 	});
 });
 
+
+// ドラッグ&ドロップできるリスト（研究中）
+// 参考 http://alphasis.info/2014/03/javascript-sample-drag-and-drop-div-p/
+// リスト参考 https://webdesign-css-html-koyaman.hatenablog.com/entry/2016/10/01/025155
+// データ取得 https://qiita.com/noqua/items/b81222c0352aecaf31ea
+
+
+function sampleDrag($event) {
+	$event.dataTransfer.setData("Text", $event.target.id);
+}
+function sampleDrop($event, $this) {
+	$event.preventDefault();
+	var $data = $event.dataTransfer.getData("Text");
+	$this.appendChild(document.getElementById($data));
+}
+function sampleAllowDrop($event) {
+	$event.preventDefault();
+}
+
+$('#dataMiruLa').on('click', function () {
+	// localStorageからのデータ取得
+	const keyLa = document.getElementById("keyLa").value;
+	if (localStorage.getItem(keyLa)) {
+		var json_getLa = localStorage.getItem(keyLa);
+		console.log(json_getLa);
+		var obj_getLa = JSON.parse(json_getLa);
+		console.log(obj_getLa);
+
+		$('#nameLa').html(obj_getLa.name);
+		$('#einoNameLa').html(obj_getLa.einoName);
+		// 表示内容の分岐
+		$('#chikuLa').html(obj_getLa.chiku);
+		$('#naiyou1La').html(obj_getLa.naiyou1);
+		$('#endregionsougakuLa').html(obj_getLa.sougaku);
+		$('#kenpiLa').html(obj_getLa.kenpi);
+		$('#shihiLa').html(obj_getLa.shihi);
+		$('#nameGLa').html(obj_getLa.nameG);
+	};
+});
+// 表示内容の分岐
+// select要素を取得
+var koumoku = document.getElementById("koumokuLa");
+// 選択状態の項目の値を取得
+var sentaku = koumoku.value;
+console.log(sentaku);
+
+if (koumokuLa = "実施地区") {
+	$('#hyoujiLa').html('<p id="#chikuLa"></p>');
+} else if (koumoku = "事業内容") {
+	$('#hyoujiLa').html('<p class="naiyou1La"></p>');
+} else if (koumoku = "事業費総額") {
+	$('#hyoujiLa').html('<p class="sougakuLa"></p>');
+} else if (koumoku = "補助額") {
+	$('#hyoujiLa').html('<p>県費：<span id="kenpiLa"></span></p><p>市費：<span id="shihiLa"></span></p>');
+} else {
+	$('#hyoujiLa').html('<p class="nameGLa"></p>');
+};

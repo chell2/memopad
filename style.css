@@ -1,5 +1,13 @@
 /** CSS **/
 
+#head-wrap{
+  width: 97%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
 /* 全体設定 */
 body{
 	font-family: Roboto, "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
@@ -17,11 +25,6 @@ textarea {
 
 input,textarea{
     font-size:80%;
-}
-
-td{
-  margin: 2px;
-  padding-left: 20px;
 }
 
 h3{
@@ -113,6 +116,12 @@ li:hover{
 }
 /* タブ設定ここまで-------------- */
 
+/* 登録tableの左余白 */
+.touroku {
+  margin: 2px;
+  padding-left: 20px;
+}
+
 /* ふきだしの設定 */
 td.div {
 	position:relative;
@@ -169,7 +178,90 @@ td.div {
 /* 戻るボタンここまで-------------- */
 
 /* aタグのリスト */
-#anchorBox{
+#anchorBox {
 	padding-top: 10px;
 }
 
+/* 一覧タブのdivの左余白 */
+.dataTab{
+  padding: 20px;
+}
+
+/* キー&データの一覧表 */
+/* 表示されるtableのスタイル、列幅指定 */
+/* 参考 https://www.white-space.work/not-working-style-of-table-cell-width/ */
+/* https://syumi3.com/sonota/html_pasokon/table-word-wrap.html */
+
+#allData {
+  table-layout: fixed;
+  width: 99%;
+  border-collapse: collapse;
+  border: 2px solid;
+  border-color: #5bbee5;
+  word-wrap: break-word;
+  font-size: small;
+  margin-top: 10px;
+}
+
+#noRetsu {
+  border: 1px solid;
+  width: 30px;
+  background-color: #5bbee5;
+  color: #fff;
+}
+
+#keyRetsu {
+  border: 1px solid;
+  width: 70px;
+  background-color: #5bbee5;
+  color: #fff;
+}
+
+#dataRetsu {
+  border: 1px solid;
+  width: auto;
+  padding-right: 20px;
+  background-color: #5bbee5;
+  color: #fff;
+}
+
+.keyRetsuD {
+  text-align: center;
+}
+/* 一覧表ここまで-------------- */
+
+/* リスト実験ここから */
+#dropSampleA,
+#dropSampleB {
+    float: left;
+    width: 47%;
+    min-height: 500px;
+    padding: 10px;
+    border: 1px solid gray;
+    list-style-position: inside;
+}
+#dropSampleA {
+    background-color: #5bbee5;
+}
+#dropSampleB {
+    background-color: #5b94e5;
+}
+#dragSampleA,
+#dragSampleB,
+#dragSampleC {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid gray;
+    text-align: left;
+}
+#dragSampleA {
+    background-color: pink;
+}
+#dragSampleB {
+    background-color: lightblue;
+}
+#dragSampleC {
+    background-color: lightgreen;
+}
+/* リストここまで---------------------- */
